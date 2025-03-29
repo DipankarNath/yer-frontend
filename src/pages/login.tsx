@@ -22,7 +22,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { LOGIN } from "@/service/auth";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const formSchema = z.object({
   userName: z.string().min(2).max(50),
@@ -30,6 +30,7 @@ const formSchema = z.object({
 });
 
 function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +47,12 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     },
     onSuccess: (data) => {
       console.log(data);
+
+      if (data?.data.user.role === 'ADMIN') {
+        navigate('/providerDashboard');
+      } else if (data?.data.user.role === 'USER') {
+        navigate('/patientDashboard');
+      }
     },
   });
 

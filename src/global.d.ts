@@ -3,9 +3,16 @@ type AuthPayload = {
   password: string;
 };
 
+type userType = {
+  id: string;
+  name: string;
+  role: "ADMIN" | "USER";
+};
+
 type AuthResponse = {
   token: string;
   refreshToken: string;
+  user: userType;
 };
 
 type ProviderCreationPayload = {

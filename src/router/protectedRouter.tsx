@@ -1,8 +1,10 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router";
+import Cookies from "js-cookie";
 
 const ProtectedRoute: React.FC = () => {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
+  const token = Cookies.get("access_token");
 
   if (!token) {
     return <Navigate to={"/login"} replace={true} />;

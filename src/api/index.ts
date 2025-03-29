@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie"
 
 const api = axios.create({
   baseURL: "http://172.20.10.6:5000/api/",
@@ -8,7 +9,8 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    // const token = localStorage.getItem("token");
+    const token = Cookies.get('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,7 +31,8 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      const refreshToken = localStorage.getItem("refreshToken");
+      // const refreshToken = localStorage.getItem("refreshToken");
+      const refreshToken = Cookies.get('refresh_token')
 
       if (
         !refreshToken ||
@@ -38,6 +41,7 @@ api.interceptors.response.use(
       ) {
         return Promise.reject(new Error(`Token not found!`));
       }
+      //TODO: implement api for refresh token
       try {
         const response = await api.post("/refresh-token", {
           token: refreshToken,

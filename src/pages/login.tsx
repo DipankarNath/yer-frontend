@@ -20,9 +20,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { LOGIN } from "@/service/auth";
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  userName: z.string().min(2).max(50),
   password: z.string().min(5).max(50),
 });
 
@@ -30,20 +32,26 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      userName: "",
       password: "",
     },
+  });
+  // http:172.20.10.6:5000/api/login
+  const loginMutation = useMutation({
+    mutationFn: (payload: AuthPayload) => LOGIN(payload),
+    mutationKey: ["login"],
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    loginMutation.mutate(values);
   }
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className={cn("flex flex-col gap-6", className)} {...props}>
         <Card>
           <CardHeader className="text-center">
-            <CardTitle className="text-xl">Welcome back</CardTitle>
+            <CardTitle className="text-xl">Bayer</CardTitle>
             <CardDescription>
               Login with your username and passsword
             </CardDescription>
@@ -55,10 +63,10 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
                   <div className="grid gap-6">
                     <FormField
                       control={form.control}
-                      name="name"
+                      name="userName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Name</FormLabel>
+                          <FormLabel>User Name</FormLabel>
                           <FormControl>
                             <Input placeholder="your@email.com" {...field} />
                           </FormControl>

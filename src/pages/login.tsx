@@ -47,6 +47,8 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     },
     onSuccess: (data) => {
       console.log(data);
+      localStorage.setItem('token', data?.data.token)
+      localStorage.setItem('refreshToken', data?.data.refreshToken)
 
       if (data?.data.user.role_id === 1) {
         console.log('here');

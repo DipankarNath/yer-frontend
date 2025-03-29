@@ -6,7 +6,7 @@ type AuthPayload = {
 type userType = {
   id: string;
   name: string;
-  role_id: "1" | "2";
+  role_id: 1 | 2;
 };
 
 type AuthResponse = {

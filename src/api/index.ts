@@ -9,8 +9,8 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    // const token = localStorage.getItem("token");
-    const token = Cookies.get('access_token')
+    const token = localStorage.getItem("token");
+    // const token = Cookies.get('access_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -31,8 +31,8 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      // const refreshToken = localStorage.getItem("refreshToken");
-      const refreshToken = Cookies.get('refresh_token')
+     const refreshToken = localStorage.getItem("refreshToken");
+      // const refreshToken = Cookies.get('refresh_token')
 
       if (
         !refreshToken ||

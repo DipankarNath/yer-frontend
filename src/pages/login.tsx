@@ -22,6 +22,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { LOGIN } from "@/service/auth";
+import { Link } from "react-router";
 
 const formSchema = z.object({
   userName: z.string().min(2).max(50),
@@ -36,10 +37,16 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
       password: "",
     },
   });
-  // http:172.20.10.6:5000/api/login
+
   const loginMutation = useMutation({
     mutationFn: (payload: AuthPayload) => LOGIN(payload),
     mutationKey: ["login"],
+    onError: (error) => {
+      console.error(error);
+    },
+    onSuccess: (data) => {
+      console.log(data);
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -108,9 +115,12 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
                   </div>
                   <div className="text-center text-sm">
                     Don&apos;t have an account?{" "}
-                    <a href="#" className="underline underline-offset-4">
+                    <Link
+                      to="/patient-registration"
+                      className="underline underline-offset-4"
+                    >
                       Sign up
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </form>

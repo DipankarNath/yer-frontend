@@ -14,5 +14,5 @@ export const REGISTER_PROVIDER = (
 export const REGISTER_PATIENTS = (
   payload: PatientCreationPayload
 ): AxiosPromise<PatientCreationResponse> => {
-  return api.post("/register", { ...payload });
+  return api.post("/user/register", { ...payload });
 };

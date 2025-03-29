@@ -48,10 +48,14 @@ function Login({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
     onSuccess: (data) => {
       console.log(data);
 
-      if (data?.data.user.role === 'ADMIN') {
-        navigate('/providerDashboard');
-      } else if (data?.data.user.role === 'USER') {
-        navigate('/patientDashboard');
+      if (data?.data.user.role_id === 1) {
+        console.log('here');
+        navigate('/provider-dashboard');
+        
+      } else if (data?.data.user.role_id === 2) {
+        console.log('data');
+
+        navigate('/patient-dashboard');
       }
     },
   });
